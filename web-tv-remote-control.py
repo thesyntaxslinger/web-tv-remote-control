@@ -72,24 +72,24 @@ HTML = '''
 </head>
 <body>
   <div class="container">
-    <button class="full-width" onclick="sendKey('103')">▲</button>
+    <button class="full-width" onclick="sendKey('up')">▲</button>
 
     <div class="half-row">
-      <button class="half" onclick="sendKey('105')">◀</button>
-      <button class="half" onclick="sendKey('106')">▶</button>
+      <button class="half" onclick="sendKey('left')">◀</button>
+      <button class="half" onclick="sendKey('right')">▶</button>
     </div>
 
-    <button class="full-width" onclick="sendKey('108')">▼</button>
+    <button class="full-width" onclick="sendKey('down')">▼</button>
 
     <div class="half-row">
-      <button class="half" onclick="sendKey('1')">Back</button>
-      <button class="half" onclick="sendKey('28')">OK</button>
+      <button class="half" onclick="sendKey('back')">Back</button>
+      <button class="half" onclick="sendKey('ok')">OK</button>
     </div>
   </div>
 
   <script>
-    function sendKey(key) {
-      fetch('/key?k=' + key).catch(e => console.log(e));
+    function sendKey(action) {
+      fetch('/key/' + action, { method: 'POST' }).catch(e => console.log(e));
     }
   </script>
   <script>
@@ -101,6 +101,18 @@ HTML = '''
 </html>
 
 '''
+
+def send_key(code):
+    key_sequence = f"{code}:1 {code}:0"
+
+    env = os.environ.copy()
+    env['YDOTOOL_SOCKET'] = '/run/user/1000/.ydotool_socket'
+
+    subprocess.run(
+        ['ydotool', 'key'] + key_sequence.split(),
+        env=env,
+        timeout=2
+    )
 
 @app.route('/')
 def home():
@@ -118,24 +130,34 @@ def manifest():
 def service_worker():
     return send_from_directory('./assets', 'sw.js')
 
-@app.route('/key')
-def keypress():
-    key = request.args.get('k', '')
+@app.route('/key/up', methods=['POST'])
+def key_up():
+    send_key('103')
+    return 'OK'
 
-    if key.isdigit():
-        key_sequence = f"{key}:1 {key}:0"
-    else:
-        key_sequence = key
+@app.route('/key/left', methods=['POST'])
+def key_left():
+    send_key('105')
+    return 'OK'
 
-    env = os.environ.copy()
-    env['YDOTOOL_SOCKET'] = '/run/user/1000/.ydotool_socket'
+@app.route('/key/right', methods=['POST'])
+def key_right():
+    send_key('106')
+    return 'OK'
 
-    subprocess.run(
-        ['ydotool', 'key'] + key_sequence.split(),
-        env=env,
-        timeout=2
-    )
+@app.route('/key/down', methods=['POST'])
+def key_down():
+    send_key('108')
+    return 'OK'
 
+@app.route('/key/back', methods=['POST'])
+def key_back():
+    send_key('1')
+    return 'OK'
+
+@app.route('/key/ok', methods=['POST'])
+def key_ok():
+    send_key('28')
     return 'OK'
 
 if __name__ == '__main__':
