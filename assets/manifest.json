@@ -3,6 +3,7 @@
   "short_name": "TV Remote",
   "description": "Remote control for the TV",
   "start_url": "/",
+  "id": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "landscape",
