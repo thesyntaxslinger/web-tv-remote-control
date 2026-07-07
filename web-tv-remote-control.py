@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import os
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, send_from_directory
 import subprocess
 
 app = Flask(__name__)
@@ -13,6 +13,21 @@ HTML = '''
 <head>
   <title>Remote</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/favicon-48.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/icon-512-maskable.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
   <style>
     body {
       background-color: #121212;
@@ -77,6 +92,11 @@ HTML = '''
       fetch('/key?k=' + key).catch(e => console.log(e));
     }
   </script>
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+  </script>
 </body>
 </html>
 
@@ -85,6 +105,18 @@ HTML = '''
 @app.route('/')
 def home():
     return render_template_string(HTML)
+
+@app.route('/icons/<path:filename>')
+def assets(filename):
+    return send_from_directory('./assets/icons', filename)
+
+@app.route('/manifest.json')
+def manifest():
+    return send_from_directory('./assets', 'manifest.json')
+
+@app.route('/sw.js')
+def service_worker():
+    return send_from_directory('./assets', 'sw.js')
 
 @app.route('/key')
 def keypress():
@@ -98,9 +130,13 @@ def keypress():
     env = os.environ.copy()
     env['YDOTOOL_SOCKET'] = '/run/user/1000/.ydotool_socket'
 
-    subprocess.run(['ydotool', 'key'] + key_sequence.split(), env=env, timeout=2)
+    subprocess.run(
+        ['ydotool', 'key'] + key_sequence.split(),
+        env=env,
+        timeout=2
+    )
 
     return 'OK'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='::', port=8080)
