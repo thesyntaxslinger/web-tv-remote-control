@@ -31,7 +31,6 @@ HTML = '''
 </head>
 <body>
   <div class="container">
-    <h1>Remote<br>Control</h1>
     <button class="full-width" onclick="sendKey('up')">▲</button>
 
     <div class="half-row">
