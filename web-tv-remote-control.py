@@ -27,51 +27,11 @@ HTML = '''
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="white">
-
-  <style>
-    body {
-      background-color: #121212;
-      margin: 0;
-      padding: 2rem;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .full-width {
-      width: 100%;
-      height: 160px;
-      font-size: 2rem;
-    }
-    .half-row {
-      display: flex;
-      gap: 1rem;
-    }
-    .half {
-      flex: 1;
-      height: 160px;
-      font-size: 2rem;
-    }
-    button {
-      background-color: #1e1e1e;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      touch-action: manipulation;
-    }
-    button:active {
-      background-color: #333;
-    }
-  </style>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="container">
+    <h1>Remote<br>Control</h1>
     <button class="full-width" onclick="sendKey('up')">▲</button>
 
     <div class="half-row">
@@ -125,6 +85,10 @@ def assets(filename):
 @app.route('/manifest.json')
 def manifest():
     return send_from_directory('./assets', 'manifest.json')
+
+@app.route('/style.css')
+def style():
+    return send_from_directory('./assets', 'style.css')
 
 @app.route('/sw.js')
 def service_worker():
