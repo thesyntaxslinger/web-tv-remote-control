@@ -1,0 +1,7 @@
+services:
+  web-tv-remote-control:
+    image: web-tv-remote-control:latest
+    container_name: web-tv-remote-control
+    network_mode: host
+    devices:
+      - /dev/uinput

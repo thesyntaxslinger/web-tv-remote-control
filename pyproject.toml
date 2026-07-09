@@ -12,3 +12,8 @@ dependencies = [
 
 [project.scripts]
 web-tv-remote-control = "web_tv_remote_control:main"
+
+[tool.setuptools.package-data]
+web_tv_remote_control = [
+    "web/**/*",
+]
