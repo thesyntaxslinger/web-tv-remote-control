@@ -4,58 +4,30 @@ Made this to control a streaming box that was running Arch and needed to use the
 
 ![screenshot](images/screenshot.webp)
 
-## Requirements
+## Installation
 
-You need a few dependencies for this:
+Make a venv then install all the deps
 
-- python-flask
-- python-evdev
-
-You can install a webserver and then use basic auth for authentication for security so nobody on your network gets to control your TV.
-
-Make sure your user is also in the input group.
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install .
+```
 
 ```bash
 sudo usermod -aG input user
 ```
 
-### Arch Linux
-
-```bash
-sudo pacman -Syy python-flask python-evdev
-```
-
 ## Usage
 
-Run this:
+To run the program just call it from the terminal
 
 ```bash
-python3 ./web-tv-remote-control.py
+web-tv-remote-control
 ```
 
 Then you can access it on port 8080 of the machine you are running it on.
 
-### Running with a systemd units
-
-Python systemd unit:
-
-```systemd
-[Unit]
-Description=Flask Application
-After=network.target
-
-[Service]
-Type=simple
-User=user
-Group=user
-
-ExecStart=python3 /opt/web-tv-remote-control/web-tv-remote-control.py
-
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-```
-
-1. Make Dockerfile once step 1 is complete
+## To-Do
+1. Arg parse things so users can specify ports 
+2. Make Dockerfile once step 1 is complete

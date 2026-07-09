@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "web-tv-remote-control"
+version = "0.1.0"
+dependencies = [
+    "flask",
+    "evdev",
+]
+
+[project.scripts]
+web-tv-remote-control = "web_tv_remote_control:main"
