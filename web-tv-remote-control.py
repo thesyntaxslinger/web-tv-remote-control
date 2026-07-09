@@ -2,6 +2,7 @@
 
 import os
 from flask import Flask, request, render_template_string, send_from_directory
+from evdev import UInput, ecodes as e
 import subprocess
 
 app = Flask(__name__)
@@ -61,17 +62,12 @@ HTML = '''
 
 '''
 
+_ui = UInput({e.EV_KEY: list(e.keys.keys())}, name='python-evdev-vkbd')
 def send_key(code):
-    key_sequence = f"{code}:1 {code}:0"
+    _ui.write(e.EV_KEY, code, 1)  # key down
+    _ui.write(e.EV_KEY, code, 0)  # key up
+    _ui.syn()                    # flush the event
 
-    env = os.environ.copy()
-    env['YDOTOOL_SOCKET'] = '/run/user/1000/.ydotool_socket'
-
-    subprocess.run(
-        ['ydotool', 'key'] + key_sequence.split(),
-        env=env,
-        timeout=2
-    )
 
 @app.route('/')
 def home():
@@ -95,32 +91,32 @@ def service_worker():
 
 @app.route('/key/up', methods=['POST'])
 def key_up():
-    send_key('103')
+    send_key(103)
     return 'OK'
 
 @app.route('/key/left', methods=['POST'])
 def key_left():
-    send_key('105')
+    send_key(105)
     return 'OK'
 
 @app.route('/key/right', methods=['POST'])
 def key_right():
-    send_key('106')
+    send_key(106)
     return 'OK'
 
 @app.route('/key/down', methods=['POST'])
 def key_down():
-    send_key('108')
+    send_key(108)
     return 'OK'
 
 @app.route('/key/back', methods=['POST'])
 def key_back():
-    send_key('1')
+    send_key(1)
     return 'OK'
 
 @app.route('/key/ok', methods=['POST'])
 def key_ok():
-    send_key('28')
+    send_key(28)
     return 'OK'
 
 if __name__ == '__main__':

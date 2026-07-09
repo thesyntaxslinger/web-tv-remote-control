@@ -6,17 +6,23 @@ Made this to control a streaming box that was running Arch and needed to use the
 
 ## Requirements
 
-You need a few dependancies for this:
+You need a few dependencies for this:
 
-- ydotool
 - python-flask
+- python-evdev
 
 You can install a webserver and then use basic auth for authentication for security so nobody on your network gets to control your TV.
+
+Make sure your user is also in the input group.
+
+```bash
+sudo usermod -aG input user
+```
 
 ### Arch Linux
 
 ```bash
-sudo pacman -Syy ydotool python-flask
+sudo pacman -Syy python-flask python-evdev
 ```
 
 ## Usage
@@ -52,26 +58,4 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-ydotoold systemd unit:
-
-```systemd
-[Unit]
-Description=ydotool daemon
-After=systemd-user-sessions.service
-
-[Service]
-Type=simple
-User=user
-Group=user
-ExecStart=/usr/bin/ydotoold -p /run/user/$(id -u user)/.ydotool_socket
-Restart=always
-RestartSec=2
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## To Do
-
-1. Figure out a way to make this no longer use ydotool
-2. Make Dockerfile once step 1 is complete
+1. Make Dockerfile once step 1 is complete
