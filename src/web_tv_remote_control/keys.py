@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from evdev import UInput, ecodes as e
 
 # make allowed keys
