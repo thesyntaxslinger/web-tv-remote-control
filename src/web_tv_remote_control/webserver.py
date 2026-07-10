@@ -20,8 +20,5 @@ def buttonpress(button):
     return 'OK'
 
 
-def main():
-    app.run(host='::', port=8080)
-
-if __name__ == '__main__':
-    main()
+def run_server(host, port):
+    app.run(host=host, port=port)
