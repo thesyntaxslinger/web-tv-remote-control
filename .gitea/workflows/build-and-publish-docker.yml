@@ -27,17 +27,17 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@latest
+        uses: actions/checkout@v7
 
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@latest
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@latest
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@latest
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY_HOST }}
           username: ${{ github.actor }}
@@ -45,7 +45,7 @@ jobs:
 
       - name: Build and push Docker image
         id: build
-        uses: docker/build-push-action@latest
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ${{ inputs.dockerfile }}
