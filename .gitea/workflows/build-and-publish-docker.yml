@@ -1,0 +1,53 @@
+name: Build and publish docker release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set registry host
+        run: |
+          HOST="${{ github.server_url }}"
+          HOST="${HOST#https://}"
+          HOST="${HOST#http://}"
+          if [[ "$REGISTRY_HOST" == "github.com" ]]; then
+            echo "REGISTRY_HOST=ghcr.io" >> "$GITHUB_ENV"
+          else
+            echo "REGISTRY_HOST=$HOST" >> "$GITHUB_ENV"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@latest
+
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@latest
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@latest
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@latest
+        with:
+          registry: ${{ env.REGISTRY_HOST }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GT_PKG_REPO }}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@latest
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          push: true
+          platforms: linux/amd64
