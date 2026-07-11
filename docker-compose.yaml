@@ -9,8 +9,8 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=8080
-      - PUID=1050
-      - PGID=1050
+      - PUID=1000
+      - PGID=1000
     devices:
       - /dev/uinput:/dev/uinput
     restart: unless-stopped
