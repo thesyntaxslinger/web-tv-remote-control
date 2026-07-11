@@ -6,7 +6,9 @@ Made this to control a streaming box that was running Arch and needed to use the
 
 ## Installation
 
-Make a venv then install all the deps
+### Bare metal
+
+Make a venv and then install the package into that venv.
 
 ```bash
 python -m venv venv
@@ -14,8 +16,12 @@ source venv/bin/activate
 pip install .
 ```
 
+### Docker
+
+Edit the docker compose file and then compose up.
+
 ```bash
-sudo usermod -aG input user
+docker compose up -d
 ```
 
 ## Usage
@@ -27,7 +33,3 @@ web-tv-remote-control
 ```
 
 Then you can access it on port 8080 of the machine you are running it on.
-
-## To-Do
-1. Arg parse things so users can specify ports 
-2. Make Dockerfile once step 1 is complete

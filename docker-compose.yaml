@@ -1,0 +1,16 @@
+services:
+  web-tv-remote-control:
+    container_name: web-tv-remote-control
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+      - PUID=1050
+      - PGID=1050
+    devices:
+      - /dev/uinput:/dev/uinput
+    restart: unless-stopped
