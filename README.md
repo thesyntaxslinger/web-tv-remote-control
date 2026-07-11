@@ -1,14 +1,26 @@
-# Python Web Remote Control API
+# 📺 Python Web Remote Control
 
-Made this to control a streaming box that was running Arch and needed to use the arrow keys to move around the UI on the TV.
+A lightweight web-based remote control for TV/streaming boxes. Built to control a Linux streaming box where the on-screen UI needed to be navigated with arrow keys.
 
 ![screenshot](images/screenshot.webp)
+
+## Features
+
+- Control a device's UI (arrow key navigation, etc.) from any browser on your network
+- Simple installation via `pip` or Docker
+- Runs a lightweight web server on port `8080`
+
+## Requirements
+
+- Python 3.x
+- `pip` and `venv` (for bare metal installation)
+- Docker and Docker Compose (for containerized installation)
 
 ## Installation
 
 ### Bare metal
 
-Make a venv and then install the package into that venv.
+Create a virtual environment and install the package into it:
 
 ```bash
 python -m venv venv
@@ -18,7 +30,7 @@ pip install .
 
 ### Docker
 
-Edit the docker compose file and then compose up.
+Edit `docker-compose.yml` to suit your setup, then bring up the container:
 
 ```bash
 docker compose up -d
@@ -26,10 +38,18 @@ docker compose up -d
 
 ## Usage
 
-To run the program just call it from the terminal
+Run the program from the terminal:
 
 ```bash
 web-tv-remote-control
 ```
 
-Then you can access it on port 8080 of the machine you are running it on.
+Once running, open a browser and navigate to port `8080` on the host machine:
+
+```
+http://<host-ip>:8080
+```
+
+## Contributing
+
+Issues and pull requests are welcome!
