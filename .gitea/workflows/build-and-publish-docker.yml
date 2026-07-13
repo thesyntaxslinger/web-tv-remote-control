@@ -28,17 +28,21 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v7
+        driver-opts: network=host
 
 
       # commented out for now since we are only building for x86
       #- name: Set up QEMU
       #  uses: docker/setup-qemu-action@v4
+      #  driver-opts: network=host
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        driver-opts: network=host
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
+        driver-opts: network=host
         with:
           registry: ${{ env.REGISTRY_HOST }}
           username: ${{ github.actor }}
@@ -47,6 +51,7 @@ jobs:
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v6
+        driver-opts: network=host
         with:
           images: ${{ env.REGISTRY_HOST }}/${{ github.repository }}
           tags: |
@@ -57,6 +62,7 @@ jobs:
       - name: Build and push Docker image
         id: build
         uses: docker/build-push-action@v7
+        driver-opts: network=host
         with:
           context: .
           file: ${{ inputs.dockerfile }}
