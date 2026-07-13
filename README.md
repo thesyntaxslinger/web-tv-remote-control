@@ -2,7 +2,7 @@
 
 A lightweight web-based remote control for TV/streaming boxes. Built to control a Linux streaming box where the on-screen UI needed to be navigated with arrow keys.
 
-![screenshot](images/screenshot.webp)
+![screenshot](.github/screenshot.webp)
 
 ## Features
 
