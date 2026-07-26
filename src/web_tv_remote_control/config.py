@@ -6,10 +6,12 @@ allowed_keys = {
     "back": 1,
     "ok": 28
 }
+special_keys = {'on', 'off'}
 
 class Config:
     def __init__(self):
         self.allowed_keys = allowed_keys
+        self.special_keys = special_keys
         self.host = None
         self.port = None
         self.mode = None
@@ -24,3 +26,13 @@ class Config:
         self.api_url = args.api_url
 
 config = Config()
+
+"""
+TODO:
+client.load_host_keys(config.ssh_known_hosts_path)
+hostname=config.ssh_host,
+port=config.ssh_host,
+username=config.ssh_user,
+key_filename=config.ssh_key_path,
+send_magic_packet(config.macaddress)
+"""

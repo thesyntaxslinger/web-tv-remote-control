@@ -20,6 +20,15 @@ def make_parser():
     parser.add_argument('-m', '--mode', default=os.environ.get('MODE', 'both'), choices=modes, type=str, help='the mode to run %(prog)s in')
     parser.add_argument('--api-token', default=os.environ.get('API_TOKEN'), type=str, help='used for both controller or api')
     parser.add_argument('--api-url', default=os.environ.get('API_URL'), type=str, help='the scheme, host, and port (if needed) of the api server')
+    """
+    TODO:
+    client.load_host_keys(config.ssh_known_hosts_path)
+    hostname=config.ssh_host,
+    port=config.ssh_host,
+    username=config.ssh_user,
+    key_filename=config.ssh_key_path,
+    send_magic_packet(config.macaddress)
+    """
     return parser
 
 def validate_args(parser, args):
@@ -47,6 +56,14 @@ def validate_args(parser, args):
             print("======================================================================")
             print(f"Please add this token to your environment as API_KEY to suppress this.\n{token}")
             print("======================================================================")
+        found = [
+            name for name, value in (
+                ('--api-url', args.api_url),
+            )
+            if value
+        ]
+        if found:
+            print("WARN: Environment variables found for controller but ignoring due to mode set to 'api'")
     elif args.mode == 'both':
         found = [
             name for name, value in (
@@ -56,7 +73,7 @@ def validate_args(parser, args):
             if value
         ]
         if found:
-            print("Environment variables found for controller/api but ignoring due to mode set to 'both'")
+            print("WARN: Environment variables found for controller/api but ignoring due to mode set to 'both'")
 
 
 
