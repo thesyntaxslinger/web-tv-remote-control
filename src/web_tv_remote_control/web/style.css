@@ -39,6 +39,11 @@ h1 {
   height: 160px;
   font-size: 2rem;
 }
+.alt-half {
+  flex: 1;
+  height: 100px;
+  font-size: 2rem;
+}
 button {
   background-color: #1e1e1e;
   color: #fff;
@@ -49,4 +54,13 @@ button {
 button:active {
   background-color: #333;
 }
-
+.power {
+  height: 100px;
+  font-size: 1.5rem;
+}
+.off:active {
+  background-color: #3a1a1a;
+}
+.on:active {
+  background-color: #1a3a1a;
+}

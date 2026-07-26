@@ -22,7 +22,12 @@
 </head>
 <body>
   <div class="container">
-    <button class="full-width" onclick="sendKey('up')">▲</button>
+    <div class="half-row">
+      <button class="alt-half power off" onclick="sendkey('off')">🔴 Off</button>
+      <button class="alt-half power on" onclick="sendkey('on')">🟢 On</button>
+    </div>
+
+    <button class="full-width" onclick="sendkey('up')">▲</button>
 
     <div class="half-row">
       <button class="half" onclick="sendkey('left')">◀</button>
@@ -32,8 +37,8 @@
     <button class="full-width" onclick="sendkey('down')">▼</button>
 
     <div class="half-row">
-      <button class="half" onclick="sendkey('back')">back</button>
-      <button class="half" onclick="sendkey('ok')">ok</button>
+      <button class="alt-half" onclick="sendkey('back')">back</button>
+      <button class="alt-half" onclick="sendkey('ok')">ok</button>
     </div>
   </div>
 </body>
