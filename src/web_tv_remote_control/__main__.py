@@ -1,13 +1,12 @@
-import argparse
 from .webserver import run_server
-from .cli import make_parser
+from .cli import parse_args
+from .config import config
 
 
 def main():
-    parser = make_parser()
-    args = parser.parse_args()
-    run_server(args.host, args.port)
-
+    args = parse_args()
+    config.load_from_args(args)
+    run_server()
 
 if __name__ == '__main__':
     main()

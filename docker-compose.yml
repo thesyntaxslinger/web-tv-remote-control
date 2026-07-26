@@ -13,6 +13,11 @@ services:
       - PORT=8080
       - PUID=1000
       - PGID=1000
+      # only fill these values in if you are using the controller/api
+      # you can run with api mode once to generate you a random api key to copy from logs
+      # - MODE={controller,api}
+      # - API_TOKEN=secret
+      # - API_URL=https://my-api.domain.tld
     volumes:
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
