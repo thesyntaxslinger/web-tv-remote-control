@@ -11,6 +11,13 @@ if ! getent passwd "$PUID"; then
     adduser -D -u "$PUID" -G appuser appuser
 fi
 
-chown appuser:appuser /dev/uinput >/dev/null 2>&1 
+# uinput is only needed when this container actually presses keys locally
+if [ "$MODE" != "controller" ]; then
+    if [ -e /dev/uinput ]; then
+        chown appuser:appuser /dev/uinput
+    else
+        echo "WARNING: MODE=$MODE requires /dev/uinput but it was not found. Did you forget to mount it?" >&2
+    fi
+fi
 
 exec su-exec appuser "$@"

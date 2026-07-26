@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    # devices are only needed if you are running normal or api mode
     devices:
       - /dev/uinput:/dev/uinput
     ports:
