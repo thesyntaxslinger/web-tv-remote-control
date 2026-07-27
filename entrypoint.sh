@@ -36,11 +36,12 @@ if [ "$MODE" = "controller" ]; then
         exit 1
     fi
 
+    ## OMMITTED due to wanting to run the copy and paste to set the perms first, then we can mount with :ro
     # appuser needs to read these at runtime — fix ownership since the
     # mounted host dir is very likely owned by the host user, not appuser
-    chown -R appuser:appuser "$CONFIG_DIR"
-    chmod 600 "$CONFIG_DIR/id_ed25519"
-    chmod 600 "$CONFIG_DIR/known_hosts"
+    #chown -R appuser:appuser "$CONFIG_DIR"
+    #chmod 600 "$CONFIG_DIR/id_ed25519"
+    #chmod 600 "$CONFIG_DIR/known_hosts"
 else
     if [ -d "$CONFIG_DIR" ]; then
         echo "WARN: MODE=$MODE does not use $CONFIG_DIR, but it is mounted. Ignoring it." >&2

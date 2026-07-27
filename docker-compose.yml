@@ -1,10 +1,12 @@
 services:
   web-tv-remote-control:
     container_name: web-tv-remote-control
+    ## needed for controller mode
+    # network_mode: host
     build:
       context: .
       dockerfile: Dockerfile
-    # devices are only needed if you are running normal or api mode
+    ## devices are only needed if you are running both or api mode
     devices:
       - /dev/uinput:/dev/uinput
     ports:
@@ -14,11 +16,20 @@ services:
       - PORT=8080
       - PUID=1000
       - PGID=1000
-      # only fill these values in if you are using the controller/api
-      # you can run with api mode once to generate you a random api key to copy from logs
-      # - MODE={controller,api}
-      # - API_TOKEN=secret
-      # - API_URL=https://my-api.domain.tld
+      ## remove these sections depending on (api|controller)
+      ## api mode
+      # - MODE=api
+      # - API_TOKEN=secret # generated into the docker log on run once in api mode
+      ## controller mode
+      # - MODE=controller
+      # - API_TOKEN=secret # get this from api container
+      # - API_URL=https://api.domain.tld
+      # - API_MACADDRESS=xx:xx:xx:xx:xx:xx
+      # - SSH_USER=user
+      # - SSH_HOST=api.domain.tld
+      # - SSH_PORT=22
     volumes:
+      ## needed for controller mode
+      # - ./config:/config:ro
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
