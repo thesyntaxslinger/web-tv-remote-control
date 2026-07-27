@@ -13,7 +13,7 @@ def make_request(key):
     headers = {'Authorization': f'Bearer {config.api_token}'}
     req = urllib.request.Request(f'{config.api_url}/key/{data}', headers=headers, method='POST')
     try:
-        with urllib.request.urlopen(req):
+        with urllib.request.urlopen(req, timeout=5):
             pass
     except urllib.error.HTTPError as e:
         print(f'ERROR: API request failed with code {e.code}')
