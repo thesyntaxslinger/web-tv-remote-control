@@ -25,6 +25,10 @@ fi
 
 # config dir is only required for controller mode (ssh known_hosts + private key)
 if [ "$MODE" = "controller" ]; then
+    # set var in here as workaround for cli.py checks
+    CONFIG_DIR="${CONFIG_DIR:-/config}"
+    export CONFIG_DIR
+
     if [ ! -d "$CONFIG_DIR" ]; then
         echo "ERROR: MODE=controller requires $CONFIG_DIR to be mounted, but it was not found." >&2
         echo "Did you forget: -v /host/path/to/config:$CONFIG_DIR ?" >&2
