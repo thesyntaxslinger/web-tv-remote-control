@@ -1,5 +1,4 @@
 from pathlib import Path
-import sys
 
 allowed_keys = {
     "up": 103,
@@ -16,17 +15,14 @@ def get_vars_from_config_dir(mode, config_dir):
         return None
     if not Path(config_dir).is_dir():
         raise NotADirectoryError(f"{config_dir} does not exist or is not a directory")
-        sys.exit(1)
 
     ssh_known_hosts = config_dir + '/known_hosts'
     ssh_key = config_dir + '/id_ed25519'
 
     if not Path(ssh_known_hosts).is_file():
-        print(f"{ssh_known_hosts} does not exist")
-        sys.exit(1) 
+        raise FileNotFoundError(f"{ssh_known_hosts} does not exist")
     if not Path(ssh_key).is_file():
-        print(f"{ssh_key} does not exist")
-        sys.exit(1)
+        raise FileNotFoundError(f"{ssh_key} does not exist")
     return ssh_known_hosts, ssh_key
 
 
