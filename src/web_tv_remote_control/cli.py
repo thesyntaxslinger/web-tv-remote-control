@@ -19,7 +19,12 @@ def make_parser():
     parser.add_argument('-p', '--port', default=os.environ.get('PORT', 8080), type=int, help='the port to listen on')
     parser.add_argument('-m', '--mode', default=os.environ.get('MODE', 'both'), choices=modes, type=str, help='the mode to run %(prog)s in')
     parser.add_argument('--api-token', default=os.environ.get('API_TOKEN'), type=str, help='used for both controller or api')
+    parser.add_argument('--config-dir', default=os.environ.get('CONFIG_DIR'), type=str, help='directory that has the config files')
     parser.add_argument('--api-url', default=os.environ.get('API_URL'), type=str, help='the scheme, host, and port (if needed) of the api server')
+    parser.add_argument('--api-macaddress', default=os.environ.get('API_MACADDRESS'), type=str, help='mac address of the api server')
+    parser.add_argument('--ssh-user', default=os.environ.get('SSH_USER'), type=str, help='SSH user of the api server')
+    parser.add_argument('--ssh-host', default=os.environ.get('SSH_HOST'), type=str, help='address or hostname of the api server')
+    parser.add_argument('--ssh-port', default=os.environ.get('SSH_PORT'), type=int, help='SSH port of the api server')
     """
     TODO:
     client.load_host_keys(config.ssh_known_hosts_path)
@@ -36,7 +41,12 @@ def validate_args(parser, args):
         missing = [
             name for name, value in (
                 ('--api-token', args.api_token),
-                ('--api-url', args.api_url)
+                ('--api-url', args.api_url),
+                ('--config-dir', args.config_dir),
+                ('--api-macaddress', args.api_macaddress),
+                ('--ssh-user', args.ssh_user),
+                ('--ssh-host', args.ssh_host),
+                ('--ssh-port', args.ssh_port)
             )
             if not value
         ]
@@ -53,12 +63,20 @@ def validate_args(parser, args):
         ]
         if missing:
             token = make_api_token()
-            print("======================================================================")
-            print(f"Please add this token to your environment as API_KEY to suppress this.\n{token}")
-            print("======================================================================")
+            args.api_token = token
+            print("=============================================")
+            print("This token is not persistent and will change.")
+            print("Please save it to your environment")
+            print(token)
+            print("=============================================")
         found = [
             name for name, value in (
                 ('--api-url', args.api_url),
+                ('--config-dir', args.config_dir),
+                ('--api-macaddress', args.api_macaddress),
+                ('--ssh-user', args.ssh_user),
+                ('--ssh-host', args.ssh_host),
+                ('--ssh-port', args.ssh_port)
             )
             if value
         ]
@@ -69,6 +87,11 @@ def validate_args(parser, args):
             name for name, value in (
                 ('--api-token', args.api_token),
                 ('--api-url', args.api_url),
+                ('--config-dir', args.config_dir),
+                ('--api-macaddress', args.api_macaddress),
+                ('--ssh-user', args.ssh_user),
+                ('--ssh-host', args.ssh_host),
+                ('--ssh-port', args.ssh_port)
             )
             if value
         ]

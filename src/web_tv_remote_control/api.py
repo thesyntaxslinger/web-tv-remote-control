@@ -2,7 +2,9 @@ import hmac
 import urllib.parse
 import urllib.request
 import urllib.error
+from wakeonlan import send_magic_packet
 
+from .ssh import ssh_api_and_turn_off
 from .config import config
 
 
@@ -24,10 +26,19 @@ def make_request(key):
 
 
 def send_key_to_api(key):
-    if key not in config.allowed_keys:
-        return False
-    status = make_request(key)
-    return status
+    if key in config.allowed_keys:
+        make_request(key)
+        return True
+
+    if key in config.special_keys:
+        if key == 'on' and config.mode == 'controller':
+            send_magic_packet(config.api_macaddress)
+            return True
+        if key == 'off' and config.mode == 'controller':
+            # command="/sbin/poweroff",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAA...
+            ssh_api_and_turn_off()
+            return True
+    return False
 
 
 def verify_api_key(auth_header):
