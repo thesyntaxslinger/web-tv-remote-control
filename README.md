@@ -9,7 +9,7 @@ A lightweight web-based remote control for TV/streaming boxes. Built to control 
 - Control a device's UI (arrow key navigation, etc.) from any browser on your network
 - Simple installation via `pip` or Docker
 - Runs a lightweight web server on port `8080`
-- Two deployment modes (`api` and `controller`) so the box doing the key-pressing and the box doing the SSH-based power control can be split across two machines, or run together as `both`
+- Two deployment modes (`api` and `controller`) for turn off and on features (not possible with default mode)
 
 ## Requirements
 
