@@ -22,5 +22,31 @@ if [ "$MODE" != "controller" ]; then
     fi
 fi
 
+
+# config dir is only required for controller mode (ssh known_hosts + private key)
+if [ "$MODE" = "controller" ]; then
+    if [ ! -d "$CONFIG_DIR" ]; then
+        echo "ERROR: MODE=controller requires $CONFIG_DIR to be mounted, but it was not found." >&2
+        echo "Did you forget: -v /host/path/to/config:$CONFIG_DIR ?" >&2
+        exit 1
+    fi
+
+    if [ ! -f "$CONFIG_DIR/id_ed25519" ] || [ ! -f "$CONFIG_DIR/known_hosts" ]; then
+        echo "ERROR: $CONFIG_DIR is mounted but missing id_ed25519 and/or known_hosts." >&2
+        exit 1
+    fi
+
+    # appuser needs to read these at runtime — fix ownership since the
+    # mounted host dir is very likely owned by the host user, not appuser
+    chown -R appuser:appuser "$CONFIG_DIR"
+    chmod 600 "$CONFIG_DIR/id_ed25519"
+    chmod 600 "$CONFIG_DIR/known_hosts"
+else
+    if [ -d "$CONFIG_DIR" ]; then
+        echo "WARN: MODE=$MODE does not use $CONFIG_DIR, but it is mounted. Ignoring it." >&2
+    fi
+fi
+
+
 # exec su-exec appuser "$@"
 exec gosu appuser "$@"

@@ -8,9 +8,9 @@ version = "0.1.0"
 dependencies = [
     "flask",
     "evdev",
-    "argparse"
-#    "wakeonlan",
-#    "paramiko"
+    "argparse",
+    "wakeonlan",
+    "paramiko"
 ]
 
 [project.scripts]

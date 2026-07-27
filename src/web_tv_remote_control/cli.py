@@ -25,15 +25,6 @@ def make_parser():
     parser.add_argument('--ssh-user', default=os.environ.get('SSH_USER'), type=str, help='SSH user of the api server')
     parser.add_argument('--ssh-host', default=os.environ.get('SSH_HOST'), type=str, help='address or hostname of the api server')
     parser.add_argument('--ssh-port', default=os.environ.get('SSH_PORT'), type=int, help='SSH port of the api server')
-    """
-    TODO:
-    client.load_host_keys(config.ssh_known_hosts_path)
-    hostname=config.ssh_host,
-    port=config.ssh_host,
-    username=config.ssh_user,
-    key_filename=config.ssh_key_path,
-    send_magic_packet(config.macaddress)
-    """
     return parser
 
 def validate_args(parser, args):

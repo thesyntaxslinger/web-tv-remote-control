@@ -32,6 +32,7 @@ ENV PORT=8080
 ENV HOST=0.0.0.0
 ENV PUID=1000
 ENV PGID=1000
+ENV CONFIG_DIR=/config
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

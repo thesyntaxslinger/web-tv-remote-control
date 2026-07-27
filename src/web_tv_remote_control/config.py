@@ -58,6 +58,9 @@ class Config:
         self.ssh_user = args.ssh_user
         self.ssh_host = args.ssh_host
         self.ssh_port = args.ssh_port
-        self.ssh_known_hosts, self.ssh_key = get_vars_from_config_dir(self.mode, self.config_dir)
+
+        ssh_vars = get_vars_from_config_dir(self.mode, self.config_dir)
+        if ssh_vars is not None:
+            self.ssh_known_hosts, self.ssh_key = ssh_vars
 
 config = Config()
